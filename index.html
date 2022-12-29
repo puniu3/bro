@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>BRO</title>
+</head>
+
+<body>
+    <textarea cols="80" rows="20"></textarea>
+    <div/>
+    <input type="text"autofocus />
+    <button>find</button>
+    
+    <script src="bro.js" type="text/javascript"></script>
+    <script>
+        const input = document.querySelector("input");
+        const text = document.querySelector("textarea");
+        const button = document.querySelector("button");
+        
+        const log = msg => text.innerHTML = msg;
+        const find = () => {
+            log(parse(cards.find(c => c.number == input.value)));
+            input.value = "";
+        };
+        button.addEventListener("click", find);
+        document.addEventListener("keydown", e => {
+            if(e.key === "Enter") find();
+        });
+        
+        const parse = card => {
+            if(!card) return "データなし";
+            const jp = card.foreignData.find(d => d.language === "Japanese");
+            return `${jp.name}\n${jp.type}\n${card.manaCost}\n${card.power || ""}/${card.toughness || ""}\n${jp.text}\n${card.rarity}`;
+        };
+        
+        const cards = data.data.cards;
+        log(parse(cards.find(c => c.number == 1)));
+    </script>
+</body>
+</html>
